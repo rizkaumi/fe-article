@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
   CCard, 
   CCardBody, 
@@ -20,50 +21,57 @@ const Select = () => {
   const [activeKey, setActiveKey] = useState(1)
   const [post, setPost] = useState([])
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   
-  const [filteredPost, setFilteredPost] = useState (post)
-
-
-  const getAllPosts = async() =>{
+  const getAllPublish = async() =>{
     setLoading(true);
     console.log("2. Masuk action getList");
-    await axios.get(`http://127.0.0.1:8080/articles/`)
-      .then((response) => {
-        setPost(response.data.data)
-        setFilteredPost(response.data.data)
-      })  
+    const response = await axios.get(`http://127.0.0.1:8080/articles/`)
+    const updatedPost = (response.data.data).filter(x => x.status === "publish")
+    setPost(updatedPost)  
     setLoading(false)
   }
-  
+  const getAllDraft = async() =>{
+    setLoading(true);
+    console.log("2. Masuk action getList");
+    const response = await axios.get(`http://127.0.0.1:8080/articles/`)
+    const updatedPost = (response.data.data).filter(x => x.status === "draft")
+    setPost(updatedPost)
+    setLoading(false)
+  }
+  const getAllTrash = async() =>{
+    setLoading(true);
+    console.log("2. Masuk action getList");
+    const response = await axios.get(`http://127.0.0.1:8080/articles/`)
+    const updatedPost = (response.data.data).filter(x => x.status === "trash")
+    setPost(updatedPost)
+    setLoading(false)
+  }
+
   useEffect(()=>{
-    getAllPosts()
+    getAllDraft()
+    getAllTrash()
+    getAllPublish()
   },[])
   
-  // const filterPost = (statuspost) =>{
-  //   const result = post.data.filter((post)=>{
-  //     return post.status === statuspost
-  //   })
-  //   setPost(result)
-  // }
-  const filterPost = () =>{
-    const updatedPost = filteredPost.filter(x => x.status === "publish")
-    console.log(updatedPost)
-    setFilteredPost(updatedPost)
-  }
+  
   const showPublish =()=>{
     setActiveKey(1)
-    filterPost()
-      // const filterPublish = JSON.parse(post).filter(x => x.status === "publish")
-      // setFilter(filterPublish) 
-      // setPost(filterPublish)   
+    getAllPublish()
   }
+  
   const showDraft =()=>{
     setActiveKey(2)
-    // filterPost('draft')
+    getAllDraft()
   }
+
   const showTrash =()=>{
     setActiveKey(3)
-    // filterPost('trash')
+    getAllTrash()
+  }
+
+  const editInvoice = (id) => {
+    navigate(`/edit/post/${id}`)
   }
 
   return (
@@ -113,7 +121,7 @@ const Select = () => {
                   </CTableHead>
                   <CTableBody> 
                     {
-                      !loading && filteredPost? filteredPost.map((posts)=>{
+                      !loading && post? post.map((posts)=>{
                         return (
                         <CTableRow key={posts.id}>
                         <CTableDataCell>
@@ -123,7 +131,7 @@ const Select = () => {
                           {posts.category}
                         </CTableDataCell>
                         <CTableDataCell className="d-grid gap-2 d-md-flex justify-content-md">
-                          <CButton color="dark">
+                          <CButton color="dark" onClick={() => editInvoice(posts.id)}>
                             <CIcon icon={cilPencil}/>
                             Edit
                           </CButton>
@@ -167,7 +175,7 @@ const Select = () => {
                           {posts.category}
                         </CTableDataCell>
                         <CTableDataCell className="d-grid gap-2 d-md-flex justify-content-md">
-                          <CButton color="dark">
+                          <CButton color="dark" onClick={() => editInvoice(posts.id)}>
                             <CIcon icon={cilPencil}/>
                             Edit
                           </CButton>
@@ -211,7 +219,7 @@ const Select = () => {
                           {posts.category}
                         </CTableDataCell>
                         <CTableDataCell className="d-grid gap-2 d-md-flex justify-content-md">
-                          <CButton color="dark">
+                          <CButton color="dark" onClick={() => editInvoice(posts.id)}>
                             <CIcon icon={cilPencil}/>
                             Edit
                           </CButton>

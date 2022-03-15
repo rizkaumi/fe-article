@@ -1,4 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
 import {
   CButton,
@@ -25,12 +27,72 @@ const AddNew = () => {
     content,
     category,
   } = formArticle
-  
+
+  // //buat get data post by id
+  // const { article } = useSelector((state) => state.articles);
+  // const { id } = useParams()
+  // const navigate = useNavigate()
+  // const dispatch = useDispatch()
+
+  // const getPostbyId = async(id) =>{
+  //   try {
+  //   console.log("2. Masuk action getPostbyId");
+  //   const response = await axios.get(`http://127.0.0.1:8080/article/${id}`)
+  //   setFormArticle(response.data.data)
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getPostbyId(id)
+  // }, [id]);
+
+  // useEffect(() => {
+  //   if(article){
+  //     setFormArticle(article)
+  //   }
+  // }, [article]);
+
+  // buat update post status publish
+  // const updatePublishPost = async() =>{
+  //   console.log("Masuk action create");
+  //   const data = JSON.stringify({
+  //     "title" : article.title,
+  //     "content" : article.content,
+  //     "category" : article.category,
+  //     "status" : "publish"
+  //   })
+  //   const response = await axios.put(`http://127.0.0.1:8080/article/${id}`, data);
+  //   console.log("status post" + response.status)
+  //   console.log(data)
+  //   console.log ("Published!")
+
+  // }
+  // // buat update post status draft
+  // const updateDraftPost = async() =>{
+  //   console.log("Masuk action create");
+  //   const data = JSON.stringify({
+  //     "title" : article.title,
+  //     "content" : article.content,
+  //     "category" : article.category,
+  //     "status" : "draft"
+  //   })
+  //   const response = await axios.put(`http://127.0.0.1:8080/article/${id}`, data);
+  //   console.log("status post" + response.status)
+  //   console.log(data)
+  //   console.log ("Drafted!")
+
+  // }
+
+  // handle merubah form
   const handleChange = event => {
     const { name, value } = event.target;
     setFormArticle({ ...formArticle, [name]: value });
   };
 
+  //buat create post status publish
   const createPublishPost = async() =>{
     console.log("Masuk action create");
     const data = JSON.stringify({
@@ -53,6 +115,7 @@ const AddNew = () => {
     }
   }
 
+  //post status draft
   const createDraftPost = async() =>{
     console.log("Masuk action create");
     const data = JSON.stringify({

@@ -59,6 +59,7 @@ const routes = [
   { path: '/allposts', name: 'All Posts', element: AllPost },
   { path: '/addnew', name: 'Add New', element: AddNew },
   { path: '/preview', name: 'Preview', element: Preview },
+  { path: '/edit/post/:id', name: 'Edit Post', element: AddNew },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
