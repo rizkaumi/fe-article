@@ -1,39 +1,22 @@
-// import thunk from 'redux-thunk'
-import { createStore } from 'redux'
-// import RootReducer from './redux/reducers/RootReducer'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from "redux-thunk";
+import rootReducer from './redux/reducers/rootReducer'
 
-// const initialState = {}
-// const middlewares = [thunk]
-// let devtools = (x) => x
-
-// if (
-//     process.env.NODE_ENV !== 'production' &&
-//     process.browser &&
-//     window.__REDUX_DEVTOOLS_EXTENSION__
-// ) {
-//     devtools = window.__REDUX_DEVTOOLS_EXTENSION__()
+// const initialState = {
+//   sidebarShow: true,
 // }
 
-// const store = createStore(
-//     RootReducer,
-//     initialState,
-//     compose(applyMiddleware(...middlewares), devtools)
-// )
+// const changeState = (state = initialState, { type, ...rest }) => {
+//   switch (type) {
+//     case 'set':
+//       return { ...state, ...rest }
+//     default:
+//       return state
+//   }
+// }
 
-// export default store
-
-const initialState = {
-  sidebarShow: true,
-}
-
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case 'set':
-      return { ...state, ...rest }
-    default:
-      return state
-  }
-}
-
-const store = createStore(changeState)
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk)
+)
 export default store
