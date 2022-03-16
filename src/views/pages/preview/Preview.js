@@ -53,7 +53,7 @@ const Tooltips = () => {
             limit={cards.length}
             
           >
-            <CPaginationItem disabled>Previous</CPaginationItem>
+            <CPaginationItem>Previous</CPaginationItem>
               <CPaginationItem>1</CPaginationItem>
               <CPaginationItem>2</CPaginationItem>
               <CPaginationItem>3</CPaginationItem>
