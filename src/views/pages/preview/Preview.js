@@ -1,24 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios';
+import React, { useState, useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { CSpinner, CCard, CCardBody, CCardTitle, CCardText, CCardHeader, CRow, CCol, CPagination, CPaginationItem} from '@coreui/react'
+import { getAllPublish } from 'src/redux/actions/PostsAction'
 
 
 const Tooltips = () => {
-  const [cards, setCards] = useState([])
-  const [loading, setLoading] = useState(false)
-  
-  const getAllPublish = async() =>{
-    setLoading(true);
-    console.log("2. Masuk action getList");
-    const response = await axios.get(`http://127.0.0.1:8080/articles/`)
-    const updatedPost = (response.data.data).filter(x => x.status === "publish")
-    setCards(updatedPost)
-    setLoading(false)
-  }
+  const cards = useSelector(state => state.article.posts)
+  const loading = useSelector(state => state.article.isLoading)
+  const dispatch = useDispatch()
+  const [page, setPage] = useState(2);
 
   useEffect(()=>{
-    getAllPublish()
-  },[])
+    dispatch(getAllPublish())
+  },[dispatch])
 
   return (
     <CRow>
@@ -28,9 +22,8 @@ const Tooltips = () => {
             <strong>Preview Published Article</strong>
           </CCardHeader>
           <CCardBody>
-          <CRow>
-            
-                {
+            <CRow>
+              {
                 !loading && cards? cards.map((card)=>{
                   return (
                   <CCol lg={4} key={card.id}>
@@ -50,19 +43,22 @@ const Tooltips = () => {
                 }) : (
                   <CSpinner color="primary" />
                 )
-              }
-                
-              
-          </CRow>
+              } 
+          </CRow>            
+          <CPagination
+            className="justify-content-center"
+            activePage={setPage}
+            pages={page}
+            onActivePageChange={(i) => setPage(i)}
+            limit={cards.length}
             
-            
-            <CPagination className="justify-content-center" aria-label="Page navigation example">
-              <CPaginationItem disabled>Previous</CPaginationItem>
+          >
+            <CPaginationItem disabled>Previous</CPaginationItem>
               <CPaginationItem>1</CPaginationItem>
               <CPaginationItem>2</CPaginationItem>
               <CPaginationItem>3</CPaginationItem>
               <CPaginationItem>Next</CPaginationItem>
-            </CPagination>
+          </CPagination>
           </CCardBody>
         </CCard>
       </CCol>

@@ -3,51 +3,30 @@ import{
     GET_ARTICLE,
     CREATE_ARTICLE,
     UPDATE_ARTICLE,
-    DELETE_ARTICLE
+    DELETE_ARTICLE,
+    START_LOADING,
+    END_LOADING
 } from '../actions/PostsAction'
-
-const initialState = {
-    post: []
-};
   
-const Posts = (state = initialState, action) => {
+const posts = (state = { isLoading: true, posts: [] }, action) => {
     switch (action.type) {
-      case "CREATE_USER":
-        return { ...state, post: [...state.post, action.data] };
+      case START_LOADING:
+        return { ...state, isLoading: true };
+      case END_LOADING:
+        return { ...state, isLoading: false };
+      case GET_ALL_ARTICLE:
+        return {...state, posts : action.payload}
+      case GET_ARTICLE:
+        return {...state, post : action.payload}
+      case CREATE_ARTICLE:
+        return { ...state, posts: [...state.posts, action.payload] }
+      case UPDATE_ARTICLE:
+        return { ...state, posts: state.posts.map((post) => (post.id === action.payload.id ? action.payload : post)) };
+      case DELETE_ARTICLE:
+        return {...state, posts: state.posts.filter((post) => post.id !== action.payload)}
       default:
         return state;
     }
 };
   
-export default Posts;
-  
-// let initialState ={
-//     getAllPosts : [],
-//     errorAllPosts : false,
-
-//     createPost : [],
-//     createPosts : false,
-// }
-
-// const PostsReducer = (state = initialState, action) =>{
-//     switch (action.type){
-//         case GET_ALL_ARTICLE:
-//             console.log('Masuk reducer:', action)
-//             return{
-//                 ...state,
-//                 getAllPosts: action.payload.data,
-//                 errorAllPosts: action.payload.errorMessage,
-//             }
-//         // case CREATE_ARTICLE:
-//         //     console.log('Masuk reducer: ', action)
-//         //     return {
-//         //         ...state,
-//         //         createPost: action.payload.data,
-//         //         errorCreatePost: action.payload.errorMessage,
-//         //     }
-//         default:
-//             return state    
-//     }
-// }
-
-// export default PostsReducer
+export default posts;

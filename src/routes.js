@@ -6,7 +6,7 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 const AllPost = React.lazy(() => import('./views/pages/allposts/AllPosts'))
 const AddNew = React.lazy(() => import('./views/pages/addnew/AddNew'))
 const Preview = React.lazy(() => import('./views/pages/preview/Preview'))
-
+const EditPost = React.lazy(() => import('./views/pages/allposts/EditPost'))
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'))
@@ -58,8 +58,8 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/allposts', name: 'All Posts', element: AllPost },
   { path: '/addnew', name: 'Add New', element: AddNew },
-  { path: '/preview', name: 'Preview', element: Preview },
-  { path: '/edit/post/:id', name: 'Edit Post', element: AddNew },
+  { path: '/preview', name: 'Preview Blog', element: Preview },
+  { path: '/edit/post/:id', name: 'Edit Post', element: EditPost },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

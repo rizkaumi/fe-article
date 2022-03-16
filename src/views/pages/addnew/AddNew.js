@@ -1,6 +1,4 @@
-import React, {useEffect, useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useState} from 'react'
 import axios from 'axios';
 import {
   CButton,
@@ -28,116 +26,57 @@ const AddNew = () => {
     category,
   } = formArticle
 
-  // //buat get data post by id
-  // const { article } = useSelector((state) => state.articles);
-  // const { id } = useParams()
-  // const navigate = useNavigate()
-  // const dispatch = useDispatch()
-
-  // const getPostbyId = async(id) =>{
-  //   try {
-  //   console.log("2. Masuk action getPostbyId");
-  //   const response = await axios.get(`http://127.0.0.1:8080/article/${id}`)
-  //   setFormArticle(response.data.data)
-  //   }
-  //   catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getPostbyId(id)
-  // }, [id]);
-
-  // useEffect(() => {
-  //   if(article){
-  //     setFormArticle(article)
-  //   }
-  // }, [article]);
-
-  // buat update post status publish
-  // const updatePublishPost = async() =>{
-  //   console.log("Masuk action create");
-  //   const data = JSON.stringify({
-  //     "title" : article.title,
-  //     "content" : article.content,
-  //     "category" : article.category,
-  //     "status" : "publish"
-  //   })
-  //   const response = await axios.put(`http://127.0.0.1:8080/article/${id}`, data);
-  //   console.log("status post" + response.status)
-  //   console.log(data)
-  //   console.log ("Published!")
-
-  // }
-  // // buat update post status draft
-  // const updateDraftPost = async() =>{
-  //   console.log("Masuk action create");
-  //   const data = JSON.stringify({
-  //     "title" : article.title,
-  //     "content" : article.content,
-  //     "category" : article.category,
-  //     "status" : "draft"
-  //   })
-  //   const response = await axios.put(`http://127.0.0.1:8080/article/${id}`, data);
-  //   console.log("status post" + response.status)
-  //   console.log(data)
-  //   console.log ("Drafted!")
-
-  // }
-
   // handle merubah form
   const handleChange = event => {
     const { name, value } = event.target;
     setFormArticle({ ...formArticle, [name]: value });
   };
 
-  //buat create post status publish
-  const createPublishPost = async() =>{
-    console.log("Masuk action create");
-    const data = JSON.stringify({
-      "title" : formArticle.title,
-      "content" : formArticle.content,
-      "category" : formArticle.category,
-      "status" : "publish"
-    })
-    const response = await axios.post(`http://127.0.0.1:8080/article/`, data);
-    console.log("status post" + response.status)
-    console.log(data)
-    console.log ("Published!")
+ //buat create post status publish
+ const createPublishPost = async() =>{
+  console.log("Masuk action create");
+  const data = JSON.stringify({
+    "title" : formArticle.title,
+    "content" : formArticle.content,
+    "category" : formArticle.category,
+    "status" : "publish"
+  })
+  const response = await axios.post(`http://127.0.0.1:8080/article/`, data);
+  console.log("status post" + response.status)
+  console.log(data)
+  console.log ("Published!")
 
-    if (response.status===200){
-      setFormArticle({
-        title:'',
-        content: '',
-        category: ''
-      });
-    }
+  if (response.status===200){
+    setFormArticle({
+      title:'',
+      content: '',
+      category: ''
+    });
   }
+}
 
-  //post status draft
-  const createDraftPost = async() =>{
-    console.log("Masuk action create");
-    const data = JSON.stringify({
-      "title" : formArticle.title,
-      "content" : formArticle.content,
-      "category" : formArticle.category,
-      "status" : "draft"
-    })
-    const response = await axios.post(`http://127.0.0.1:8080/article/`, data);
-    console.log("status post" + response.status)
-    console.log(data)
-    console.log ("Drafted!")
+//post status draft
+const createDraftPost = async() =>{
+  console.log("Masuk action create");
+  const data = JSON.stringify({
+    "title" : formArticle.title,
+    "content" : formArticle.content,
+    "category" : formArticle.category,
+    "status" : "draft"
+  })
+  const response = await axios.post(`http://127.0.0.1:8080/article/`, data);
+  console.log("status post" + response.status)
+  console.log(data)
+  console.log ("Drafted!")
 
-    if (response.status===200){
-      setFormArticle({
-        title:'',
-        content: '',
-        category: ''
-      });
-    }
+  if (response.status===200){
+    setFormArticle({
+      title:'',
+      content: '',
+      category: ''
+    });
   }
-  
+} 
   return (
     <CRow>
       <CCol xs={12}>
@@ -157,16 +96,12 @@ const AddNew = () => {
                   value={title}
                   onChange={handleChange}
                 />
-              </div>
-              <div className="mb-3">
                 <CFormLabel htmlFor="exampleFormControlTextarea1">Content</CFormLabel>
                 <CFormTextarea placeholder="Article content" rows="3"
                 name='content' 
                 value={content}
                 onChange={handleChange}
                 />
-              </div>
-              <div className="mb-3">
                 <CFormLabel>Category</CFormLabel>
                 <CFormInput
                   type="text"
@@ -177,7 +112,8 @@ const AddNew = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+            </CForm>
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <CButton color="secondary" className="me-md-2" 
                  onClick={createDraftPost}
                  >
@@ -187,7 +123,6 @@ const AddNew = () => {
                 onClick={createPublishPost}
                 >Publish</CButton>
               </div>
-            </CForm>
           </CCardBody>
         </CCard>
       </CCol>

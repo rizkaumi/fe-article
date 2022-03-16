@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { 
   CCard, 
   CCardBody, 
@@ -15,13 +17,16 @@ import {
   cilPencil,
   cilTrash,
 } from '@coreui/icons'
-import axios from 'axios';
+// import { getAllPublish, getAllDraft, getAllTrash } from 'src/redux/actions/PostsAction'
 
 const Select = () => {
   const [activeKey, setActiveKey] = useState(1)
   const [post, setPost] = useState([])
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  // const dispatch = useDispatch()
+  // const post = useSelector(state => state.article.posts)
+  // const loading = useSelector(state => state.article.isLoading)
   
   const getAllPublish = async() =>{
     setLoading(true);
@@ -52,6 +57,7 @@ const Select = () => {
     getAllDraft()
     getAllTrash()
     getAllPublish()
+    
   },[])
   
   
@@ -70,10 +76,10 @@ const Select = () => {
     getAllTrash()
   }
 
-  const editInvoice = (id) => {
+  const editPost = (id) => {
     navigate(`/edit/post/${id}`)
   }
-
+  
   return (
     <CRow>
       <CCol xs={12}>
@@ -131,7 +137,7 @@ const Select = () => {
                           {posts.category}
                         </CTableDataCell>
                         <CTableDataCell className="d-grid gap-2 d-md-flex justify-content-md">
-                          <CButton color="dark" onClick={() => editInvoice(posts.id)}>
+                          <CButton color="dark" onClick={() => editPost(posts.id)}>
                             <CIcon icon={cilPencil}/>
                             Edit
                           </CButton>
@@ -150,7 +156,6 @@ const Select = () => {
                         </CTableRow>
                       )
                     }
-                    
                   </CTableBody>
                 </CTable>
             </CTabPane>
@@ -175,7 +180,7 @@ const Select = () => {
                           {posts.category}
                         </CTableDataCell>
                         <CTableDataCell className="d-grid gap-2 d-md-flex justify-content-md">
-                          <CButton color="dark" onClick={() => editInvoice(posts.id)}>
+                          <CButton color="dark" onClick={() => editPost(posts.id)}>
                             <CIcon icon={cilPencil}/>
                             Edit
                           </CButton>
@@ -193,8 +198,7 @@ const Select = () => {
                           </CTableDataCell>
                         </CTableRow>
                       )
-                    }
-                    
+                    }    
                   </CTableBody>
                 </CTable>
             </CTabPane>
@@ -219,7 +223,7 @@ const Select = () => {
                           {posts.category}
                         </CTableDataCell>
                         <CTableDataCell className="d-grid gap-2 d-md-flex justify-content-md">
-                          <CButton color="dark" onClick={() => editInvoice(posts.id)}>
+                          <CButton color="dark" onClick={() => editPost(posts.id)}>
                             <CIcon icon={cilPencil}/>
                             Edit
                           </CButton>
@@ -238,13 +242,10 @@ const Select = () => {
                         </CTableRow>
                       )
                     }
-                    
                   </CTableBody>
                 </CTable>
             </CTabPane>
-            
           </CTabContent>
-
           </CCardBody>
         </CCard>
       </CCol>
